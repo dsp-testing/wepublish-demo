@@ -65,7 +65,7 @@ jobs:
     - name: Set results path
       run: |
         SARIF_RESULTS="$(realpath "${{ github.workspace }}/../results/")"
-        echo "::set-env name=SARIF_RESULTS::$SARIF_RESULTS"
+        echo "SARIF_RESULTS=$SARIF_RESULTS" << $GITHUB_ENV
 
     - name: Upload SARIF as a Build Artifact
       uses: actions/upload-artifact@v2.2.0
