@@ -62,6 +62,17 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
+    - name: Set results path
+      run: |
+        SARIF_RESULTS="$(realpath "${{ github.workspace }}/../results/")"
+        echo "::set-env name=SARIF_RESULTS::$SARIF_RESULTS"
+
+    - name: Upload SARIF as a Build Artifact
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        path: ${{env.SARIF_RESULTS}}
+        retention-days: 7
+
     # Generate a report
     - name: Generate Security Report
       uses: peter-murray/github-security-report-action@typescript
@@ -69,7 +80,7 @@ jobs:
         token: ${{ secrets.SECURITY_TOKEN }}
 
     # Upload the report
-    - name: Upload Security Report
+    - name: Upload Security Report as a Build Artifact
       uses: actions/upload-artifact@v2
       with:
         name: security-report
