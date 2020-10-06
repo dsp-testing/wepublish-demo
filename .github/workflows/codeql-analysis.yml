@@ -62,8 +62,15 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
-    # Upload a report
+    # Generate a report
     - name: Generate Security Report
       uses: peter-murray/github-security-report-action@typescript
       with:
         token: ${{ secrets.SECURITY_TOKEN }}
+
+    # Upload the report
+    - name: Upload Security Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: security-report
+        path: summary.pdf
